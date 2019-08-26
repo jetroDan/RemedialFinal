@@ -1,8 +1,8 @@
-package com.sinfloo.controlador;
+package Controlador;
 
-import com.sinfloo.modelo.Persona;
-import com.sinfloo.modelo.PersonaDAO;
-import com.sinfloo.vista.vista;
+import Modelo.Empleado;
+import Modelo.EmpleadoDao;
+import Vista.vista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -14,8 +14,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class Controlador implements ActionListener {
 
-    PersonaDAO dao = new PersonaDAO();
-    Persona p = new Persona();
+    EmpleadoDao dao = new EmpleadoDao();
+    Empleado p = new Empleado();
     vista vista = new vista();
     DefaultTableModel modelo = new DefaultTableModel();
 
@@ -49,11 +49,17 @@ public class Controlador implements ActionListener {
                 int id = Integer.parseInt((String) vista.tabla.getValueAt(fila, 0).toString());
                 String nom = (String) vista.tabla.getValueAt(fila, 1);
                 String correo = (String) vista.tabla.getValueAt(fila, 2);
-                String tel = (String) vista.tabla.getValueAt(fila, 3);
+                String tel = String.valueOf(vista.tabla.getValueAt(fila, 3));
+                String rfc = (String) vista.tabla.getValueAt(fila, 4);
+                String turno = (String) vista.tabla.getValueAt(fila, 5);
+                
+                
                 vista.txtId.setText("" + id);
                 vista.txtNom.setText(nom);
                 vista.txtCorreo.setText(correo);
                 vista.txtTel.setText(tel);
+                vista.txtRfc.setText(rfc);
+                vista.cbTurno.setSelectedItem(turno);
             }
         }
         if (e.getSource() == vista.btnActualizar) {
@@ -78,6 +84,8 @@ public class Controlador implements ActionListener {
         vista.txtNom.setText("");
         vista.txtTel.setText("");
         vista.txtCorreo.setText("");
+        vista.txtRfc.setText("");
+         vista.cbTurno.setSelectedItem("");
         vista.txtNom.requestFocus();
     }
 
@@ -97,10 +105,16 @@ public class Controlador implements ActionListener {
     public void add() {
         String nom = vista.txtNom.getText();
         String correo = vista.txtCorreo.getText();
-        String tel = vista.txtTel.getText();
+       int tel = Integer.parseInt( vista.txtTel.getText());
+        String rfc = vista.txtRfc.getText();
+        String turno = String.valueOf(vista.cbTurno.getSelectedItem());
+        
+        
         p.setNom(nom);
         p.setCorreo(correo);
         p.setTelefono(tel);
+        p.setRfc(rfc);
+        p.setTurno(turno);
         int r = dao.agregar(p);
         if (r == 1) {
             JOptionPane.showMessageDialog(vista, "Usuario Agregado con Exito.");
@@ -117,11 +131,16 @@ public class Controlador implements ActionListener {
             int id = Integer.parseInt(vista.txtId.getText());
             String nom = vista.txtNom.getText();
             String correo = vista.txtCorreo.getText();
-            String tel = vista.txtTel.getText();
+            int tel = Integer.parseInt(vista.txtTel.getText());
+            String rfc = vista.txtRfc.getText();
+            String turno = String.valueOf(vista.cbTurno.getSelectedItem());
+            
             p.setId(id);
             p.setNom(nom);
             p.setCorreo(correo);
             p.setTelefono(tel);
+            p.setRfc(rfc);
+            p.setTurno(turno);
             int r = dao.Actualizar(p);
             if (r == 1) {
                 JOptionPane.showMessageDialog(vista, "Usuario Actualizado con Exito.");
@@ -136,13 +155,15 @@ public class Controlador implements ActionListener {
         centrarCeldas(tabla);
         modelo = (DefaultTableModel) tabla.getModel();
         tabla.setModel(modelo);
-        List<Persona> lista = dao.listar();
-        Object[] objeto = new Object[4];
+        List<Empleado> lista = dao.listar();
+        Object[] objeto = new Object[6];
         for (int i = 0; i < lista.size(); i++) {
             objeto[0] = lista.get(i).getId();
             objeto[1] = lista.get(i).getNom();
             objeto[2] = lista.get(i).getCorreo();
             objeto[3] = lista.get(i).getTelefono();
+            objeto[4] = lista.get(i).getRfc();
+            objeto[5] = lista.get(i).getTurno();
             modelo.addRow(objeto);
         }
         tabla.setRowHeight(35);

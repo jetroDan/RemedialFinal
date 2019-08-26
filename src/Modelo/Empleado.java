@@ -1,20 +1,24 @@
 
-package com.sinfloo.modelo;
+package Modelo;
 
-public class Persona {
+public class Empleado {
     int id;
     String nom;
     String correo;
-    String telefono;
+    int telefono;
+    String rfc;
+    String turno;
 
-    public Persona() {
+    public Empleado() {
     }
 
-    public Persona(int id, String nom, String correo, String telefono) {
+    public Empleado(int id, String nom, String correo, int telefono, String rfc, String turno) {
         this.id = id;
         this.nom = nom;
         this.correo = correo;
         this.telefono = telefono;
+        this.rfc = rfc;
+        this.turno = turno;
     }
 
     public int getId() {
@@ -41,13 +45,32 @@ public class Persona {
         this.correo = correo;
     }
 
-    public String getTelefono() {
+    public int getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(String telefono) {
+    public void setTelefono(int telefono) {
         this.telefono = telefono;
     }
+
+    public String getRfc() {
+        return rfc;
+    }
+
+    public void setRfc(String rfc) {
+        this.rfc = rfc;
+    }
+
+    public String getTurno() {
+        return turno;
+    }
+
+    public void setTurno(String turno) {
+        this.turno = turno;
+    }
+    
+    
+
     
     
 }

@@ -1,9 +1,9 @@
-package com.sinfloo.modelo;
+package Modelo;
 import java.sql.Connection;
 import java.sql.DriverManager;
 public class Conexion {
     String url="jdbc:mysql://localhost:3306/bd_ejemplo";
-    String user="root",pass="12345678";    
+    String user="root",pass="";    
     Connection con;
     public Connection getConnection(){
         try {
