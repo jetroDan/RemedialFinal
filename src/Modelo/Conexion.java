@@ -2,8 +2,8 @@ package Modelo;
 import java.sql.Connection;
 import java.sql.DriverManager;
 public class Conexion {
-    String url="jdbc:mysql://localhost:3306/bd_ejemplo";
-    String user="root",pass="";    
+    String url = "jdbc:mysql://192.168.10.11:3306/examples";
+    String user = "homestead", pass = "secret";    
     Connection con;
     public Connection getConnection(){
         try {

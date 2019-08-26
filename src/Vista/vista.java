@@ -42,6 +42,10 @@ public class vista extends javax.swing.JFrame{
         btnActualizar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
+        btnEntrada = new javax.swing.JButton();
+        personaId = new javax.swing.JTextField();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tablaAsistencias = new javax.swing.JTable();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -100,7 +104,7 @@ public class vista extends javax.swing.JFrame{
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CRUD - JAVA - PATRON DE DISEÑO MVC");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle Empleado"));
 
         tabla = new javax.swing.JTable(){
             public boolean isCellEditable(int fila,int col){
@@ -140,7 +144,7 @@ public class vista extends javax.swing.JFrame{
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -278,6 +282,14 @@ public class vista extends javax.swing.JFrame{
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/config/edit.png"))); // NOI18N
         btnEditar.setText("EDITAR");
 
+        btnEntrada.setText("Checar");
+
+        personaId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                personaIdActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -285,13 +297,21 @@ public class vista extends javax.swing.JFrame{
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnNuevo)
-                    .addComponent(btnEditar))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnNuevo)
+                            .addComponent(btnEditar))
+                        .addContainerGap(402, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(personaId, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEntrada)
+                        .addContainerGap())))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -306,8 +326,22 @@ public class vista extends javax.swing.JFrame{
                 .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEntrada)
+                    .addComponent(personaId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
+
+        tablaAsistencias.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "TIPO", "FECHA", "PERSONA_ID"
+            }
+        ));
+        tablaAsistencias.getTableHeader().setReorderingAllowed(false);
+        jScrollPane6.setViewportView(tablaAsistencias);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -317,25 +351,36 @@ public class vista extends javax.swing.JFrame{
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 1064, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(73, 73, 73))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void personaIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_personaIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_personaIdActionPerformed
+
     public static void main(String args[]) {
-       vista v=new vista();
-       Controlador con=new Controlador(v);
+       vista v = new vista();
+       Controlador con = new Controlador(v);
        v.setVisible(true);
        v.setLocationRelativeTo(null);
     }
@@ -345,6 +390,7 @@ public class vista extends javax.swing.JFrame{
     public javax.swing.JButton btnAgregar;
     public javax.swing.JButton btnDelete;
     public javax.swing.JButton btnEditar;
+    public javax.swing.JButton btnEntrada;
     public javax.swing.JButton btnListar;
     public javax.swing.JButton btnNuevo;
     public javax.swing.JComboBox<String> cbTurno;
@@ -364,11 +410,14 @@ public class vista extends javax.swing.JFrame{
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
+    public javax.swing.JTextField personaId;
     public javax.swing.JTable tabla;
+    public javax.swing.JTable tablaAsistencias;
     public javax.swing.JTextField txtCorreo;
     public javax.swing.JTextField txtId;
     public javax.swing.JTextField txtNom;

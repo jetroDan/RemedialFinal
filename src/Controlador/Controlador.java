@@ -2,9 +2,11 @@ package Controlador;
 
 import Modelo.Empleado;
 import Modelo.EmpleadoDao;
+import Modelo.EntradaSalidaModelo;
 import Vista.vista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -16,6 +18,7 @@ public class Controlador implements ActionListener {
 
     EmpleadoDao dao = new EmpleadoDao();
     Empleado p = new Empleado();
+    EntradaSalidaModelo EnSal = new EntradaSalidaModelo();
     vista vista = new vista();
     DefaultTableModel modelo = new DefaultTableModel();
 
@@ -27,11 +30,19 @@ public class Controlador implements ActionListener {
         this.vista.btnDelete.addActionListener(this);
         this.vista.btnActualizar.addActionListener(this);
         this.vista.btnNuevo.addActionListener(this);
+        this.vista.btnEntrada.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        
+        if (e.getSource() == vista.btnEntrada) {
+             addEntrada();
+             listarAsistencias(vista.tablaAsistencias);
+        }
+        
         if (e.getSource() == vista.btnListar) {
+            // JOptionPane.showMessageDialog(vista, "Listar.");
             limpiarTabla();
             listar(vista.tabla);
             nuevo();
@@ -85,7 +96,7 @@ public class Controlador implements ActionListener {
         vista.txtTel.setText("");
         vista.txtCorreo.setText("");
         vista.txtRfc.setText("");
-         vista.cbTurno.setSelectedItem("");
+        vista.cbTurno.setSelectedItem("");
         vista.txtNom.requestFocus();
     }
 
@@ -157,6 +168,7 @@ public class Controlador implements ActionListener {
         tabla.setModel(modelo);
         List<Empleado> lista = dao.listar();
         Object[] objeto = new Object[6];
+        
         for (int i = 0; i < lista.size(); i++) {
             objeto[0] = lista.get(i).getId();
             objeto[1] = lista.get(i).getNom();
@@ -170,12 +182,43 @@ public class Controlador implements ActionListener {
         tabla.setRowMargin(10);
 
     }
+    
+     public void listarAsistencias(JTable tablaAsistencias) {
+        //try {
+             centrarCeldasAsistencias(tablaAsistencias);
+        modelo = (DefaultTableModel) tablaAsistencias.getModel();
+        tablaAsistencias.setModel(modelo);
+        List<EntradaSalidaModelo> lista = dao.listarAsistencias();
+        Object[] objeto = new Object[4];
+        System.out.print(lista.get(2).getTipo());
+        
+        for (int i = 0; i < lista.size(); i++) {
+            objeto[0] = lista.get(i).getId();
+            objeto[1] = lista.get(i).getTipo();
+            objeto[2] = lista.get(i).getFecha();
+            objeto[3] = lista.get(i).getPerson_id();
+            modelo.addRow(objeto);
+        }
+        tablaAsistencias.setRowHeight(35);
+        tablaAsistencias.setRowMargin(10);
+        //} catch (Exception e) {
+            //System.out.print(e);
+        //}
+    }
 
     void centrarCeldas(JTable tabla) {
         DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
         tcr.setHorizontalAlignment(SwingConstants.CENTER);
         for (int i = 0; i < vista.tabla.getColumnCount(); i++) {
             tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
+        }
+    }
+    
+    void centrarCeldasAsistencias(JTable tablaAsistencias) {
+        DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+        tcr.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < vista.tablaAsistencias.getColumnCount(); i++) {
+            tablaAsistencias.getColumnModel().getColumn(i).setCellRenderer(tcr);
         }
     }
 
@@ -185,4 +228,23 @@ public class Controlador implements ActionListener {
             i = i - 1;
         }
     }
+    
+    public void addEntrada() {        
+      int empleadoId = Integer.parseInt(vista.personaId.getText());
+      java.util.Date utilDate = new java.util.Date();
+      java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+      // Date datetime = sqlDate
+
+      EnSal.setTipo(String.valueOf("entrada"));
+      EnSal.setPerson_id(empleadoId);
+      EnSal.setFecha(sqlDate);
+
+      int r = dao.registrarEntradaSalida(EnSal);
+      if (r == 1) {
+          JOptionPane.showMessageDialog(vista, "Entrada Agregada con Exito.");
+      } else {
+          JOptionPane.showMessageDialog(vista, "Error");
+      }
+    //  limpiarTabla();
+  }
 }
